@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light theme is the default (no .dark class on <html>) */
+:root {
+  --c-cloud: 15 23 42;        /* slate-900: main text on light backgrounds */
+  --c-slate-soft: 71 85 105;  /* slate-600: secondary text on light backgrounds */
+  --glass-bg-alpha: 0.6;      /* opaque-ish white card so dark text stays readable */
+  --glass-border-alpha: 0.4;
+}
+
+/* Dark theme overrides, applied when ThemeContext adds .dark to <html> */
+.dark {
+  --c-cloud: 243 246 250;     /* near-white text */
+  --c-slate-soft: 139 150 172;
+  --glass-bg-alpha: 0.06;     /* faint frosted-glass tint */
+  --glass-border-alpha: 0.1;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-body text-cloud antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+  ::selection {
+    @apply bg-sky/40 text-cloud;
+  }
+  :focus-visible {
+    outline: 2px solid #38BDF8;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background-color: rgba(255, 255, 255, var(--glass-bg-alpha));
+    border: 1px solid rgba(255, 255, 255, var(--glass-border-alpha));
+    @apply backdrop-blur-xl rounded-card shadow-[0_8px_40px_rgba(0,0,0,0.25)];
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* thin scrollbar for horizontal forecast strips */
+.scroll-thin::-webkit-scrollbar {
+  height: 6px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+}
